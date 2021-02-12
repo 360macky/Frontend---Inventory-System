@@ -1,4 +1,4 @@
-<h1 align="center">�� Inventory System ⚛</h1>
+<h1 align="center">📦 Inventory System ⚛</h1>
 
 <p align="center">
     Proyecto de inventario (interfaz frontend compuesta en <b>React.js</b>)
