@@ -38,8 +38,8 @@ export default class Login extends Component {
             placeholder="Contraseña"
             required
           />
-          <button className="btn btn-lg btn-dark btn-block" type="submit">
-            Iniciar sesión
+          <button className="btn btn-lg btn-dark btn-block roboto-mono-font" type="submit">
+            Entrar
           </button>
         </form>
       </div>
