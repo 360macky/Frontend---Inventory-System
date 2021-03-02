@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Dashboard from './components/pages/Dashboard';
+import Footer from './components/pages/Footer';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 }
