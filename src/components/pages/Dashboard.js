@@ -49,8 +49,8 @@ export default class Dashboard extends Component {
       <div className="mt-5">
         <div className="container">
           <div className="row">
-            <div className="col-sm-4">
-              <div className="card shadow">
+            <div className="col-lg-4">
+              <div className="card shadow mb-3">
                 <div
                   className="card-header roboto-mono-font text-white"
                   style={{ background: "black" }}
@@ -59,13 +59,29 @@ export default class Dashboard extends Component {
                 </div>
                 <div className="card-body">
                   <form>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label for="">Nombre</label>
                       <input type="email" className="form-control" />
                     </div>
-                    <div class="form-group">
-                      <label for="">Código</label>
+                    <div className="form-group">
+                      <label for="">Tipo</label>
                       <input type="text" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label for="">Marca</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label for="">Descripción</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label for="">Precio</label>
+                      <input type="number" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label for="">Stock</label>
+                      <input type="number" className="form-control" />
                     </div>
                     <input
                       type="button"
@@ -86,7 +102,7 @@ export default class Dashboard extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-sm-8">
+            <div className="col-lg-8 mb-3">
               <div className="card shadow">
                 <div className="card-body">
                   <div className="table-container">
