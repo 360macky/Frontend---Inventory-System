@@ -18,12 +18,44 @@ export default class Login extends Component {
       [name]: value,
     });
   };
+  handleForm = (e) => {
+    e.preventDefault();
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    let raw = JSON.stringify({
+      email: this.state.email,
+      password: this.state.password,
+    });
+
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      "http://app-inventary-backend.herokuapp.com/api/user/login",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.ok) {
+          window.location.replace("/dashboard");
+        } else {
+          // TODO: Mostrar error
+        }
+      })
+      .catch((error) => alert(error));
+  };
   render() {
     return (
       <div className="signin-container text-center">
         <form className="form-signin mt-5 mb-5">
           <h1 className="h3 mb-5 font-weight-normal">Iniciar sesión</h1>
-          <label for="inputEmail" className="sr-only">
+          <label htmlFor="inputEmail" className="sr-only">
+            {" "}
             Email address
           </label>
           <input
@@ -37,7 +69,7 @@ export default class Login extends Component {
             value={this.state.email}
             onChange={this.handleChange}
           />
-          <label for="inputPassword" className="sr-only">
+          <label htmlFor="inputPassword" className="sr-only">
             Password
           </label>
           <input
@@ -50,7 +82,11 @@ export default class Login extends Component {
             value={this.state.password}
             onChange={this.handleChange}
           />
-          <button className="btn btn-lg btn-dark btn-block roboto-mono-font mb-5" type="submit">
+          <button
+            className="btn btn-lg btn-dark btn-block roboto-mono-font mb-5"
+            type="submit"
+            onClick={this.handleForm}
+          >
             Entrar
           </button>
         </form>
