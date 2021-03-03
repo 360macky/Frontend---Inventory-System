@@ -4,25 +4,35 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
+const INVENTORY_API = "http://app-inventary-backend.herokuapp.com/api";
+
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       columnDefs: [
-        { headerName: "ID", field: "_id" },
-        { headerName: "First Name", field: "firstName" },
-        { headerName: "Last Name", field: "lastName" },
-        { headerName: "Email", field: "email" },
-        { headerName: "Phone number", field: "phoneNumber" },
+        { headerName: "Nombre", field: "name" },
+        { headerName: "Tipo", field: "type" },
+        { headerName: "Marca", field: "brand" },
+        { headerName: "Descripción", field: "description" },
+        { headerName: "Precio", field: "price" },
+        { headerName: "Stock", field: "stock" },
       ],
       productData: [],
-      id: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
+      _id: "",
+      name: "",
+      type: "",
+      brand: "",
+      description: "",
+      price: "",
+      stock: "",
       rowSelection: "single",
+      isLoadingData: false,
     };
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.updateTable = this.updateTable.bind(this);
   }
   onGridReady = (params) => {
     this.gridApi = params.api;
@@ -31,12 +41,15 @@ export default class Dashboard extends Component {
   onSelectionChanged = () => {
     let selectedRows = this.gridApi.getSelectedRows();
     this.setState({
-      id: selectedRows[0]._id,
-      firstName: selectedRows[0].firstName,
-      lastName: selectedRows[0].lastName,
-      email: selectedRows[0].email,
-      phoneNumber: selectedRows[0].phoneNumber,
+      _id: selectedRows[0]._id,
+      name: selectedRows[0].name,
+      type: selectedRows[0].type,
+      brand: selectedRows[0].brand,
+      description: selectedRows[0].description,
+      price: selectedRows[0].price,
+      stock: selectedRows[0].stock,
     });
+    console.log(this.state);
   };
   handleChange = (e) => {
     const { value, name } = e.target;
@@ -46,10 +59,10 @@ export default class Dashboard extends Component {
   };
   render() {
     return (
-      <div className="mt-5">
-        <div className="container">
+      <div className="mt-4">
+        <div className="container-fluid">
           <div className="row">
-            <div className="col-lg-4">
+            <div className="col-lg-3">
               <div className="card shadow mb-3">
                 <div
                   className="card-header roboto-mono-font text-white"
@@ -59,50 +72,100 @@ export default class Dashboard extends Component {
                 </div>
                 <div className="card-body">
                   <form>
+                    <input type="hidden" name="_id" value={this.state._id} />
                     <div className="form-group">
-                      <label for="">Nombre</label>
-                      <input type="email" className="form-control" />
+                      <label htmlFor="">Nombre</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="name"
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                      />
                     </div>
                     <div className="form-group">
-                      <label for="">Tipo</label>
-                      <input type="text" className="form-control" />
+                      <label htmlFor="">Tipo</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="type"
+                        value={this.state.type}
+                        onChange={this.handleChange}
+                      />
                     </div>
                     <div className="form-group">
-                      <label for="">Marca</label>
-                      <input type="text" className="form-control" />
+                      <label htmlFor="">Marca</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="brand"
+                        value={this.state.brand}
+                        onChange={this.handleChange}
+                      />
                     </div>
                     <div className="form-group">
-                      <label for="">Descripción</label>
-                      <input type="text" className="form-control" />
+                      <label htmlFor="">Descripción</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="description"
+                        value={this.state.description}
+                        onChange={this.handleChange}
+                      />
                     </div>
                     <div className="form-group">
-                      <label for="">Precio</label>
-                      <input type="number" className="form-control" />
+                      <label htmlFor="">Precio</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        name="price"
+                        value={this.state.price}
+                        onChange={this.handleChange}
+                      />
                     </div>
                     <div className="form-group">
-                      <label for="">Stock</label>
-                      <input type="number" className="form-control" />
+                      <label htmlFor="">Stock</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        name="stock"
+                        value={this.state.stock}
+                        onChange={this.handleChange}
+                      />
                     </div>
                     <input
                       type="button"
                       className="btn btn-primary btn-block mt-2 roboto-mono-font"
-                      value="Add new product"
+                      value="Registrar producto"
+                      onClick={this.handleAdd}
+                      disabled={this.state.isLoadingData}
                     />
                     <input
                       type="button"
                       className="btn btn-outline-primary btn-block mt-2 roboto-mono-font"
-                      value="Update product"
+                      value="Actualizar producto"
+                      onClick={this.handleUpdate}
+                      disabled={this.state.isLoadingData}
                     />
                     <input
                       type="button"
                       className="btn btn-outline-dark btn-block mt-2 roboto-mono-font"
-                      value="Delete product"
+                      value="Eliminar producto"
+                      onClick={this.handleDelete}
+                      disabled={this.state.isLoadingData}
+                    />
+                    <input
+                      type="button"
+                      className="btn btn-outline-danger btn-block mt-2 roboto-mono-font"
+                      value="Generar reporte"
+                      onClick={this.handleReport}
+                      disabled={this.state.isLoadingData}
                     />
                   </form>
                 </div>
               </div>
             </div>
-            <div className="col-lg-8 mb-3">
+            <div className="col-lg-9 mb-3">
               <div className="card shadow">
                 <div className="card-body">
                   <div className="table-container">
@@ -111,7 +174,7 @@ export default class Dashboard extends Component {
                         pagination={true}
                         paginationAutoPageSize={true}
                         columnDefs={this.state.columnDefs}
-                        rowData={this.state.customerData}
+                        rowData={this.state.productData}
                         onGridReady={this.onGridReady}
                         rowSelection={this.state.rowSelection}
                         onSelectionChanged={this.onSelectionChanged.bind(this)}
@@ -125,5 +188,111 @@ export default class Dashboard extends Component {
         </div>
       </div>
     );
+  }
+  async componentDidMount() {
+    this.updateTable();
+  }
+  async updateTable() {
+    console.log("Passing here");
+    // TODO: Actualizar la tabla
+    let response = await fetch(`${INVENTORY_API}/products`);
+
+    let data = await response.json();
+    console.log({ data });
+    this.setState({
+      productData: data,
+    });
+  }
+  async handleDelete(e) {
+    e.preventDefault();
+    const productId = this.state._id;
+    let requestOptions = {
+      method: "DELETE",
+      redirect: "follow",
+    };
+
+    fetch(`${INVENTORY_API}/products/${productId}`, requestOptions)
+      .then((response) => {
+        this.updateTable();
+        return response.json();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  }
+  async handleReport(e) {
+    e.preventDefault();
+    // TODO: Generar reporte
+  }
+  async handleAdd(e) {
+    // TODO: Agregar nuevo producto
+    e.preventDefault();
+    this.setState({
+      isLoadingData: true,
+    });
+    const newProduct = {
+      name: this.state.name,
+      type: this.state.type,
+      brand: this.state.brand,
+      description: this.state.description,
+      price: this.state.price,
+      stock: this.state.stock,
+    };
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    let raw = JSON.stringify(newProduct);
+
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${INVENTORY_API}/products`, requestOptions)
+      .then((response) => {
+        this.updateTable();
+        return response.json();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+
+    this.setState({
+      isLoadingData: false,
+    });
+  }
+  async handleUpdate(e) {
+    // TODO: Actualizar un producto
+    e.preventDefault();
+    const productId = this.state._id;
+    const newProduct = {
+      name: this.state.name,
+      type: this.state.type,
+      brand: this.state.brand,
+      description: this.state.description,
+      price: this.state.price,
+      stock: this.state.stock,
+    };
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    let raw = JSON.stringify(newProduct);
+
+    let requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${INVENTORY_API}/products/${productId}`, requestOptions)
+      .then((response) => {
+        this.updateTable();
+        return response.text();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   }
 }
