@@ -2,12 +2,14 @@ import React from "react";
 import "./App.css";
 import Header from "./components/core/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Dashboard from './components/pages/Dashboard';
 import Footer from './components/pages/Footer';
+
+// let loggedIn = true;
 
 function App() {
   return (
@@ -16,7 +18,10 @@ function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/dashboard" component={Dashboard}/>
+        {/* <Route exact path="/dashboard" component={Dashboard}>
+          { loggedIn ? <Dashboard /> : <Redirect to="/login" />}
+        </Route> */}
       </Switch>
       <Footer />
     </BrowserRouter>
