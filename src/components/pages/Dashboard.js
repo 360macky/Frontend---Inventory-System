@@ -4,7 +4,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-const INVENTORY_API = "http://app-inventary-backend.herokuapp.com/api";
+const INVENTORY_API = "https://app-inventary-backend.herokuapp.com/api";
 
 export default class Dashboard extends Component {
   constructor(props) {
