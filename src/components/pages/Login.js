@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import "./Login.css";
 
+import {AuthContext} from '../../context/auth';
+
 export default class Login extends Component {
+
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -11,6 +16,8 @@ export default class Login extends Component {
   }
   handleForm() {
     // TODO: Send the email and password to an React API. Then redirect to /dashboard if success, otherwise show error message
+    
+
   }
   handleChange = (e) => {
     const { value, name } = e.target;
@@ -42,6 +49,7 @@ export default class Login extends Component {
       .then((response) => response.json())
       .then((result) => {
         if (result.ok) {
+          this.context.login(result);
           window.location.replace("/dashboard");
         } else {
           // TODO: Mostrar error

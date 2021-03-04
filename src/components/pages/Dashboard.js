@@ -4,6 +4,9 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
+//PDF
+import generatePDF from '../services/reportGenerator';
+
 const INVENTORY_API = "http://app-inventary-backend.herokuapp.com/api";
 
 export default class Dashboard extends Component {
@@ -158,7 +161,7 @@ export default class Dashboard extends Component {
                       type="button"
                       className="btn btn-outline-danger btn-block mt-2 roboto-mono-font"
                       value="Generar reporte"
-                      onClick={this.handleReport}
+                      onClick={() => generatePDF(this.state.productData)}
                       disabled={this.state.isLoadingData}
                     />
                   </form>
@@ -219,10 +222,7 @@ export default class Dashboard extends Component {
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
   }
-  async handleReport(e) {
-    e.preventDefault();
-    // TODO: Generar reporte
-  }
+
   async handleAdd(e) {
     // TODO: Agregar nuevo producto
     e.preventDefault();
