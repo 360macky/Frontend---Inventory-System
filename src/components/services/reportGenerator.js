@@ -28,7 +28,6 @@ const generatePDF = products => {
       tableRows.push(productData);
     });
   
-  
     // startY is basically margin-top
     doc.autoTable(tableColumn, tableRows, { startY: 20 });
     const date = Date().split(" ");
