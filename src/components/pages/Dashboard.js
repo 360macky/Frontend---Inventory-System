@@ -3,13 +3,17 @@ import "./Dashboard.css";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
+import { Redirect } from "react-router-dom";
+import { AuthContext } from "../../context/auth";
 
 //PDF
-import generatePDF from '../services/reportGenerator';
+import generatePDF from "../services/reportGenerator";
 
 const INVENTORY_API = "https://app-inventary-backend.herokuapp.com/api";
 
 export default class Dashboard extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +35,7 @@ export default class Dashboard extends Component {
       stock: "",
       rowSelection: "single",
       isLoadingData: false,
+      isLoggedIn: false,
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -55,6 +60,7 @@ export default class Dashboard extends Component {
     console.log(this.state);
   };
   handleChange = (e) => {
+    console.log(this.context.user);
     const { value, name } = e.target;
     this.setState({
       [name]: value,
@@ -189,6 +195,7 @@ export default class Dashboard extends Component {
             </div>
           </div>
         </div>
+        {!this.context.user && <Redirect to="/login" />}
       </div>
     );
   }
