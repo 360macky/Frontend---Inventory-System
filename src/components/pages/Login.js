@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom";
 import "./Login.css";
 
 import {AuthContext} from '../../context/auth';
@@ -51,7 +51,7 @@ export default class Login extends Component {
             loggedIn: true
           })
         } else {
-          // TODO: Mostrar error
+          alert("¡Correo o contraseña incorrecta! Vuelve a intentarlo");
         }
       })
       .catch((error) => alert(error));
