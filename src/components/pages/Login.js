@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import "./Login.css";
 
 import {AuthContext} from '../../context/auth';
@@ -12,13 +13,12 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
+<<<<<<< HEAD
       error: false
+=======
+      loggedIn: false
+>>>>>>> 039d4ef171491aa7623023c96e4c26c904d46daa
     };
-  }
-  handleForm() {
-    // TODO: Send the email and password to an React API. Then redirect to /dashboard if success, otherwise show error message
-    
-
   }
   handleChange = (e) => {
     const { value, name } = e.target;
@@ -51,11 +51,19 @@ export default class Login extends Component {
       .then((result) => {
         if (result.ok) {
           this.context.login(result);
+<<<<<<< HEAD
 
           window.location.replace("/dashboard");
           
         } else {
           
+=======
+          this.setState({
+            loggedIn: true
+          })
+        } else {
+          alert("¡Correo o contraseña incorrecta! Vuelve a intentarlo");
+>>>>>>> 039d4ef171491aa7623023c96e4c26c904d46daa
         }
       })
       .catch((error) => alert(error));
@@ -104,6 +112,9 @@ export default class Login extends Component {
             this.state.error && <h1>error</h1>
           }
         </form>
+        {
+          this.state.loggedIn && <Redirect to="/dashboard" />
+        }
       </div>
     );
   }
