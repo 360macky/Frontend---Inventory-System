@@ -12,6 +12,7 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      error: false
     };
   }
   handleForm() {
@@ -50,9 +51,11 @@ export default class Login extends Component {
       .then((result) => {
         if (result.ok) {
           this.context.login(result);
+
           window.location.replace("/dashboard");
+          
         } else {
-          // TODO: Mostrar error
+          
         }
       })
       .catch((error) => alert(error));
@@ -97,6 +100,9 @@ export default class Login extends Component {
           >
             Entrar
           </button>
+          {
+            this.state.error && <h1>error</h1>
+          }
         </form>
       </div>
     );

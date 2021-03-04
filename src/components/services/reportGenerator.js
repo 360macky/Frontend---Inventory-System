@@ -17,7 +17,7 @@ const generatePDF = products => {
       const productData = [
         product._id,
         product.name,
-        product.category,
+        product.type,
         product.brand,
         product.description,
         product.price,
