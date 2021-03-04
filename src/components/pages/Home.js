@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/auth";
 
 export default class Home extends Component {
+  static contextType = AuthContext;
+
   render() {
     return (
       <div>
@@ -26,9 +29,26 @@ export default class Home extends Component {
               Proyecto de estudio para SENATI basado en React y NodeJS. Y
               estilizado con Bootstrap.
             </p>
-            <Link className="btn btn-lg btn-primary roboto-mono-font" to="/login">
-              Iniciar sesión
-            </Link>
+            {!this.context.user ? (
+              <Link
+                className="btn btn-lg btn-primary roboto-mono-font"
+                to="/login"
+              >
+                Iniciar sesión
+              </Link>
+            ) : (
+              <>
+                <h4 className="text-white roboto-mono-font font-weight-light">
+                  ¡HOLA {this.context.user.usuariobd.name.toUpperCase()}!
+                </h4>
+                <p className="text-white">
+                  Ya puedes acceder al{" "}
+                  <Link to="/dashboard">
+                    panel de administración de productos
+                  </Link>
+                </p>
+              </>
+            )}
           </div>
           <div className="product-device shadow-sm d-none d-md-block"></div>
           <div className="product-device product-device-2 shadow-sm d-none d-md-block"></div>
