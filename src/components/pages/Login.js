@@ -43,7 +43,7 @@ export default class Login extends Component {
     };
 
     fetch(
-      "http://app-inventary-backend.herokuapp.com/api/user/login",
+      "https://app-inventary-backend.herokuapp.com/api/user/login",
       requestOptions
     )
       .then((response) => response.json())
