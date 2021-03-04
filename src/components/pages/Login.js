@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom"
 import "./Login.css";
 
 import {AuthContext} from '../../context/auth';
@@ -12,12 +13,8 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      loggedIn: false
     };
-  }
-  handleForm() {
-    // TODO: Send the email and password to an React API. Then redirect to /dashboard if success, otherwise show error message
-    
-
   }
   handleChange = (e) => {
     const { value, name } = e.target;
@@ -50,7 +47,9 @@ export default class Login extends Component {
       .then((result) => {
         if (result.ok) {
           this.context.login(result);
-          window.location.replace("/dashboard");
+          this.setState({
+            loggedIn: true
+          })
         } else {
           // TODO: Mostrar error
         }
@@ -98,6 +97,9 @@ export default class Login extends Component {
             Entrar
           </button>
         </form>
+        {
+          this.state.loggedIn && <Redirect to="/dashboard" />
+        }
       </div>
     );
   }
