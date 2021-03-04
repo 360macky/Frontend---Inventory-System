@@ -57,10 +57,8 @@ export default class Dashboard extends Component {
       price: selectedRows[0].price,
       stock: selectedRows[0].stock,
     });
-    console.log(this.state);
   };
   handleChange = (e) => {
-    console.log(this.context.user);
     const { value, name } = e.target;
     this.setState({
       [name]: value,
@@ -203,12 +201,8 @@ export default class Dashboard extends Component {
     this.updateTable();
   }
   async updateTable() {
-    console.log("Passing here");
-    // TODO: Actualizar la tabla
     let response = await fetch(`${INVENTORY_API}/products`);
-
     let data = await response.json();
-    console.log({ data });
     this.setState({
       productData: data,
     });
